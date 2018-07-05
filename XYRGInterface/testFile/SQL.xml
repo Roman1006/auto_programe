@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<page>
+    <database name="ygf_xlcp_20171208">
+        <table name="user_student_relation">
+            <sql id="select_member">
+SELECT student_no FROM test_scr where name=%s and school='元高分实验中学' GROUP BY student_no
+            </sql>
+        </table>
+
+        <table name="user">
+            <sql id="test_id">
+SELECT test_id FROM test_scr where school_id=160101 and name=%s and cand_no=%s and is_credible=1
+            </sql>
+        </table>
+
+        <table name="scr_dimensiongoals">
+            <sql id="avggoals">
+SELECT DISTINCT `name`,avggoals,cand_no,test_id,quest_id,goals,num FROM `scr_dimensiongoals` WHERE cand_no=%s AND test_id=%s;
+            </sql>
+        </table>
+
+        <table name="answer">
+            <sql id="avgscore">
+select avg(score) FROM answer where test_id=%s and cand_no=%s and quest_id=%s and score!=0 and stem_no!=%s;
+            </sql>
+        </table>
+
+        <table name="quest_history_info">
+            <sql id="history_avg">
+SELECT history_avg,history_standard_deviation FROM quest_history_info where quest_id=%s;
+            </sql>
+        </table>
+
+        <table name="standard_normal_info">
+            <sql id="results_value">
+SELECT results_value FROM standard_normal_info where original_value=%s;
+            </sql>
+        </table>
+
+        <table name="quest_history_info_dimension">
+            <sql id="dimension_info">
+SELECT dimension_info FROM quest_history_info where quest_id=%s;
+            </sql>
+        </table>
+
+        <table name="user_openid">
+            <sql id="openid">
+SELECT weixin_openid FROM user where v3_user_id=(SELECT parent_userid FROM user_student_relation where student_name=%s and school=%s and parent_type_name is not NULL);
+            </sql>
+        </table>
+
+    </database>
+</page>
